@@ -1,0 +1,30 @@
+[submodule "opencode"]
+	path = opencode
+	url = https://github.com/anomalyco/opencode.git
+[submodule "goose"]
+	path = goose
+	url = https://github.com/aaif-goose/goose.git
+[submodule "aider"]
+	path = aider
+	url = https://github.com/Aider-AI/aider.git
+[submodule "OpenHands"]
+	path = OpenHands
+	url = https://github.com/OpenHands/OpenHands.git
+[submodule "mcp-python-sdk"]
+	path = mcp-python-sdk
+	url = https://github.com/modelcontextprotocol/python-sdk.git
+[submodule "continue"]
+	path = continue
+	url = https://github.com/continuedev/continue.git
+[submodule "autogen"]
+	path = autogen
+	url = https://github.com/microsoft/autogen.git
+[submodule "cline"]
+	path = cline
+	url = https://github.com/cline/cline.git
+[submodule "codex"]
+	path = codex
+	url = https://github.com/openai/codex.git
+[submodule "pi"]
+	path = pi
+	url = https://github.com/earendil-works/pi.git
