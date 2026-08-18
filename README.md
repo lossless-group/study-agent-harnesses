@@ -53,6 +53,31 @@ Working checklist per entry:
 | First-party frontier-lab terminal harness (Rust rewrite); OS-level sandbox policies instead of prompt-level permission gates, own AGENTS.md/skills convention | [codex](./codex) |
 | TypeScript monorepo (`pi-ai`/`pi-agent-core`/`pi-coding-agent`/`pi-tui`); unified multi-provider LLM API, session rewind/branching, subagents, MCP adapter as an extension package, own AGENTS.md | [pi](./pi) |
 
+## Candidates — surfaced, not yet pinned
+
+Tools worth a submodule pin but not yet walked in. Listed here so the
+consideration is on record before the pin decision is made.
+
+- **[youtu-agent](https://github.com/TencentCloudADP/youtu-agent)**
+  (`TencentCloudADP/youtu-agent`, Apache-2.0 *expected — LICENSE not yet
+  confirmed against the in-repo file*, 4.6k★) — Python 3.12+ agent
+  framework/runtime built on the OpenAI Agents SDK; open-weight-model-first
+  (DeepSeek, GPT-OSS), Docker-deployable, YAML-based agent configuration.
+  Fits the study's checklist on **tool/MCP scoping** (YAML agent config,
+  MCP support, plus meta-agents that *auto-generate* tools) and especially
+  **skill/extension loading — the *evolve* half**: "Training-Free GRPO"
+  experience-based learning + meta-agent tool generation are the closest
+  thing on this list to a **self-improving harness**, which is the
+  thinnest-covered clause ("load or evolve skills") in the design-space
+  table today — every pinned entry does static/loaded skills, none does
+  self-improvement. Within the table its nearest kin is the **autogen**
+  row: a framework for *building* multi-agent systems, not a coding-CLI
+  harness (opencode/aider/codex). Also ships benchmark eval (WebWalkerQA,
+  GAIA) and an RL training pipeline — signals it's oriented toward agent
+  *performance research* as much as day-to-day harness use. Caveat before
+  pinning: reconcile the license against the in-repo LICENSE (same
+  discipline already applied to onyx/zed elsewhere in these studies).
+
 ## Sub-inquiries driving this reading pass
 
 Concrete questions from the parent plan (Phase 2), not a general survey:
