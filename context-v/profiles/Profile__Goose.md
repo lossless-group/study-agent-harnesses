@@ -2,13 +2,32 @@
 name: Goose Profile
 slug: goose
 upstream: https://github.com/aaif-goose/goose
-package: n/a (Rust crates: goose, goose-cli, goose-mcp; distributed as CLI/desktop binaries)
+package: "n/a (Rust crates: goose, goose-cli, goose-mcp; distributed as CLI/desktop binaries)"
 license: Apache-2.0
 maintainer: Agentic AI Foundation (AAIF) at the Linux Foundation — formerly Block, Inc.
 study: studies/agent-harnesses
 profile_path: studies/agent-harnesses/goose
 profile_kind: Rust CLI + desktop (Electron) + API harness, MCP-native
 date_created: 2026-07-13
+site_uuid: 870167a3-fe82-422b-8b64-b826216d14d7
+hex_code: 9kvq72
+date_authored_initial_draft: 2026-07-13
+date_authored_current_draft: 2026-07-13
+lede: >-
+  In Goose, "extension" just means "a live MCP client" — and two variants skip
+  the subprocess entirely to run in-process.
+summary: >-
+  Source-cited profile of the Goose submodule in the agent-harnesses study. Documents the
+  `ExtensionConfig` enum that unifies six transport shapes (Stdio, StreamableHttp, Builtin,
+  Platform, Frontend, InlinePython — with Sse retained only so old configs still deserialize) behind
+  one `McpClientTrait`, and the two independent scoping layers on top of it: an `available_tools`
+  allowlist checked at config time and an `AlwaysAllow`/`AskBefore`/`NeverAllow` permission gate
+  checked at call time. Also covers the SQLite session store (schema v15, WAL, per-call
+  `usage_ledger` cost tracking) and its documented migration path from JSONL, YAML recipes that
+  declare their own extension list inline, `tracing`-crate spans exported to Langfuse or OTLP, and
+  the split between `SKILL.md` durable capabilities and ambient `.goosehints`/`AGENTS.md` hints
+  loaded lazily per subdirectory. Use it as the reference for permission-gated MCP ecosystems.
+publish: true
 ---
 
 # Goose — Profile

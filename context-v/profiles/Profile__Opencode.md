@@ -9,6 +9,26 @@ study: studies/agent-harnesses
 profile_path: studies/agent-harnesses/opencode
 profile_kind: coding-agent-harness (CLI + TUI + server + desktop + SDKs)
 date_created: 2026-07-13
+site_uuid: 9e8914e1-acae-4cd0-8e2c-00bde588aa9f
+hex_code: sq77yy
+date_authored_initial_draft: 2026-07-13
+date_authored_current_draft: 2026-07-13
+lede: >-
+  A terminal coding agent with 38 SQLite migrations and real OTLP tracing —
+  built like a production SaaS backend, and no Go anywhere.
+summary: >-
+  Source-cited profile of the OpenCode submodule in the agent-harnesses study — the TypeScript,
+  Effect-native, database-backed corner. Five deep dives: XDG-derived paths with per-project
+  instance scoping; the SQLite/Drizzle session schema (including `SessionContextEpochTable`, the row
+  that makes prompt-cache hits durable across restarts) alongside a legacy JSON store still being
+  migrated out of; OTLP export wired through `Effect.fn` spans with session/message/tool-call IDs
+  attached to every tool execution; a tool registry composed from built-ins, disk files, plugins,
+  and MCP servers then filtered per-agent by wildcard permission rules rather than a static
+  allow-list; and skill/agent/command discovery that walks up the directory tree and converges
+  skills, MCP prompts, and slash commands into one namespace. Read `CONTEXT.md` and the repo's own
+  dogfooded `.opencode/` directory first. Includes a negative finding on the `sst/opencode` org-name
+  question — no evidence of the prior name survives in this checkout.
+publish: true
 ---
 
 # OpenCode — Profile

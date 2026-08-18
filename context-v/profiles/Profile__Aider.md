@@ -9,6 +9,24 @@ study: studies/agent-harnesses
 profile_path: studies/agent-harnesses/aider
 profile_kind: CLI coding agent (terminal, git-native)
 date_created: 2026-07-13
+site_uuid: a3d470fd-b911-4073-9306-e3ac6c16d1a4
+hex_code: gkvbv7
+date_authored_initial_draft: 2026-07-13
+date_authored_current_draft: 2026-07-13
+lede: >-
+  Aider has no tool-call loop and no MCP client — not a thin one, none at all.
+  It reads diffs straight out of plain chat text.
+summary: >-
+  Source-cited profile of the Aider submodule pinned in the agent-harnesses study. Establishes the
+  no-tool-call/no-MCP baseline against which every other profile in the study is contrasted: the
+  edit-format Coder subclasses that parse LLM text into file writes, the `GitRepo.commit()`
+  attribution state machine that makes each AI edit its own commit, the flat append-only
+  `.aider.chat.history.md` transcript, and the tree-sitter + PageRank repo map pushed proactively
+  into every prompt. Read it when the question is what a harness looks like with no tool registry,
+  no permission gate, and no structured trace to scope — and when git-commit-as-trace is being
+  weighed against event streams or session databases. Cross-references the Opencode and Goose
+  profiles as the other two points on that spectrum.
+publish: true
 ---
 
 # Aider — Profile

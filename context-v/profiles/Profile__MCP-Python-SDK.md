@@ -9,6 +9,25 @@ study: studies/agent-harnesses
 profile_path: studies/agent-harnesses/mcp-python-sdk
 profile_kind: library (client + server SDK)
 date_created: 2026-07-13
+site_uuid: 01e448b7-4400-429f-82d9-0aeb5e08290d
+hex_code: 9a9xuz
+date_authored_initial_draft: 2026-07-13
+date_authored_current_draft: 2026-07-13
+lede: >-
+  The pinned checkout is the unstable half of a rework: v2 swaps
+  `FastMCP`/`ClientSession` out for `MCPServer`/`Client`.
+summary: >-
+  Source-cited profile of the MCP Python SDK submodule, pinned at the v2 pre-release line. Distinct
+  from the spec repo profiled under open-specs-and-standards: that one is schema and docs, this one
+  is the Python client/server a harness author actually imports. Documents the mechanism this study
+  cares about most — dynamic tool discovery as a cached `list_tools()` round-trip, with an automatic
+  probe-then-fall-back negotiation between the modern `server/discover` path and the legacy
+  `initialize()` handshake — plus automatic JSON Schema generation from type hints, the three
+  transports behind one API (including in-process with no framing at all, which makes the best test
+  harness in the study), the shielded stdio shutdown escalation worth trusting rather than
+  reimplementing, and `ClientSessionGroup` for merging N servers into one namespace. Pin `mcp<2`
+  before quoting any of these API shapes into production code.
+publish: true
 ---
 
 # MCP Python SDK — Profile

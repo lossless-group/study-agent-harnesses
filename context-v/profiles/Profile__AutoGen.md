@@ -9,6 +9,24 @@ study: studies/agent-harnesses
 profile_path: studies/agent-harnesses/autogen
 profile_kind: Python multi-agent orchestration framework, layered core/agentchat/ext architecture, now in maintenance mode
 date_created: 2026-07-13
+site_uuid: e42a62f5-d410-4a8d-a525-c168319d5418
+hex_code: c6ajat
+date_authored_initial_draft: 2026-07-13
+date_authored_current_draft: 2026-07-13
+lede: >-
+  Every AutoGen team type overrides exactly one method — `select_speaker()` —
+  and that single seam is the whole difference between them.
+summary: >-
+  Source-cited profile of the AutoGen 0.7.5 submodule (layered `autogen-core`/`autogen-agentchat`/
+  `autogen-ext`) in the agent-harnesses study. This is the study's entry for native multi-agent team
+  orchestration: teams are actor-runtime topic graphs rather than Python loops, `select_speaker()`
+  is the one overridden seam across Round Robin / Selector / Swarm / Magentic-One, and conversation
+  state persists as a name-keyed `TeamState.agent_states` dict nesting each agent's serialized
+  `ChatCompletionContext` plus manager-specific turn counters. Also documents the direction of the
+  MCP bridge — native `Tool`/`BaseTool`/`Workbench` came first, MCP is adapted into that shape
+  behind an optional extra — which is the inverse of most other entries in the study. Note the
+  maintenance-mode status before recommending it for new work.
+publish: true
 ---
 
 # AutoGen — Profile

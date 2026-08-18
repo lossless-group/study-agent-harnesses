@@ -9,6 +9,25 @@ study: studies/agent-harnesses
 profile_path: studies/agent-harnesses/cline
 profile_kind: VS Code extension + CLI + headless "Cline Core", gRPC/protobuf host-bridge
 date_created: 2026-07-13
+site_uuid: 98921df7-a618-45af-8f13-89dac909bfac
+hex_code: mmfijg
+date_authored_initial_draft: 2026-07-13
+date_authored_current_draft: 2026-07-13
+lede: >-
+  "Memory Bank", the cross-session memory pattern Cline is best known for, has
+  zero lines of code behind it.
+summary: >-
+  Source-cited profile of the Cline submodule in the agent-harnesses study. Documents a live
+  core/host extraction: `@cline/core`/`@cline/llms`/`@cline/shared` are now dependencies of both the
+  VS Code extension and the CLI, bridged by a `HostProvider`/`HostBridge` abstraction with dual
+  in-process and out-of-process gRPC implementations across 23 `.proto` files. Three findings
+  matter for design work elsewhere in the study: `.clinerules` is a per-file-toggleable,
+  YAML-frontmatter-conditional directory that fails open on parse errors and also ingests
+  Cursor/Windsurf/AGENTS.md formats; Memory Bank is pure prompt convention riding the generic rules
+  loader; and MCP config is machine-global only — one JSON file guarded by a directory-rename
+  cross-process lock, with no per-project scoping anywhere. Cite the last one whenever per-project
+  MCP isolation is a requirement.
+publish: true
 ---
 
 # Cline — Profile

@@ -9,6 +9,24 @@ study: studies/agent-harnesses
 profile_path: studies/agent-harnesses/codex
 profile_kind: Rust terminal coding-agent CLI, OS-level sandbox enforcement, MCP client+server
 date_created: 2026-07-13
+site_uuid: b5d39c8d-feec-404d-8412-11d2ba000c1c
+hex_code: jflus4
+date_authored_initial_draft: 2026-07-13
+date_authored_current_draft: 2026-07-13
+lede: >-
+  Codex compiles a real Apple Seatbelt profile and Landlock ruleset: a fully
+  autonomous session that never prompts is still jailed by the OS.
+summary: >-
+  Source-cited profile of the OpenAI Codex submodule in the agent-harnesses study. The load-bearing
+  finding is the two-axis model: `SandboxPolicy` (what the operating system physically permits) and
+  `AskForApproval` (when a human is interrupted) are orthogonal enums, giving four independent
+  quadrants rather than one linear trust dial. Also documents the inverse-of-Goose persistence
+  relationship — append-only JSONL rollouts with zstd cold compression are the durable truth and
+  SQLite is a rebuildable derived index — plus hierarchical `AGENTS.md` concatenation root-to-cwd
+  with an `AGENTS.override.md` escape hatch, a separate `SKILL.md` loader, and MCP support in both
+  directions (client and server in the same binary). Reach for this profile when the design question
+  is blast-radius containment rather than tool visibility.
+publish: true
 ---
 
 # Codex — Profile

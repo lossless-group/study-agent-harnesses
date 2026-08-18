@@ -2,13 +2,33 @@
 name: OpenHands Profile
 slug: openhands
 upstream: https://github.com/OpenHands/OpenHands
-package: N/A (npm: @openhands/agent-canvas; PyPI deps: openhands-sdk, openhands-agent-server, openhands-tools)
+package: "N/A (npm: @openhands/agent-canvas; PyPI deps: openhands-sdk, openhands-agent-server, openhands-tools)"
 license: MIT (enterprise/ carved out under a separate enterprise/LICENSE)
 maintainer: OpenHands (formerly OpenDevin / All-Hands-AI)
 study: studies/agent-harnesses
 profile_path: studies/agent-harnesses/OpenHands
 profile_kind: control-plane frontend + app-server (formerly monolithic agent runtime, now split)
 date_created: 2026-07-13
+site_uuid: 4979cd8b-58de-4fe8-bae3-ccc714870513
+hex_code: xhq2h8
+date_authored_initial_draft: 2026-07-13
+date_authored_current_draft: 2026-07-13
+lede: >-
+  Pin `OpenHands/OpenHands` today and you do not get the agent — the CodeAct
+  loop moved out to a versioned pip dependency.
+summary: >-
+  Source-cited profile of the OpenHands submodule in the agent-harnesses study, pinned after the
+  Agent Canvas transition. Opens by establishing what the checkout actually contains, because that
+  changes how every other file in it should be read: a FastAPI app-server plus React frontend, with
+  the agent runtime consumed as exact-version PyPI packages. The reusable architecture documented
+  here is the `EventService` ABC with four interchangeable persistence backends (filesystem as one
+  JSON file per event, plus SQL/AWS/GCS) selected by deploy-time injection; the FastMCP router that
+  both hosts OpenHands' own git-provider tools and namespace-mounts a third-party MCP server so the
+  sandbox never sees the real API key; a webhook/event-callback subsystem with retry that turns the
+  event stream into an automation trigger; and ACP as the bring-your-own-agent seam. Do not look
+  here for the think-act-observe loop or the `Event` schema itself — both live upstream in
+  `software-agent-sdk`.
+publish: true
 ---
 
 # OpenHands — Profile

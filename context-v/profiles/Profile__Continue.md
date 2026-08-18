@@ -9,6 +9,25 @@ study: studies/agent-harnesses
 profile_path: studies/agent-harnesses/continue
 profile_kind: IDE extension (VS Code, JetBrains) + CLI, shared YAML config core
 date_created: 2026-07-13
+site_uuid: 823906e2-c0b4-408a-b757-dc7813d3dc44
+hex_code: w7drj9
+date_authored_initial_draft: 2026-07-13
+date_authored_current_draft: 2026-07-13
+lede: >-
+  Five differently-scoped assistants can ship side by side in one project and
+  swap mid-session — hot-swapping a skillset per project.
+summary: >-
+  Source-cited profile of the Continue submodule in the agent-harnesses study. Continue is the
+  study's entry for declarative, file-based, per-project configuration: every
+  `.continue/{assistants,agents,configs}/*.yaml` file is an independently selectable profile
+  bundling its own models, rules, prompts, and `mcpServers:` declarations. Documents the three
+  mechanisms worth borrowing — live profile switching via `setSelectedProfileId`, MCP reconciliation
+  by transport-shape diff with a per-server `setEnabled` toggle, and rules that stack additively
+  from three simultaneous sources (profile YAML, a legacy `.continuerules` dotfile, and colocated
+  `rules.md` files discovered by directory walk with incremental per-file cache updates). Treat the
+  checkout as a frozen reference: the upstream repo is archived, and the `uses`/`with`/`override`
+  block-reference system depends on a hub service that may not stay reachable.
+publish: true
 ---
 
 # Continue — Profile

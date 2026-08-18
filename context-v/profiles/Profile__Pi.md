@@ -9,6 +9,25 @@ study: studies/agent-harnesses
 profile_path: studies/agent-harnesses/pi
 profile_kind: coding-agent-harness (CLI + extension SDK, npm monorepo)
 date_created: 2026-07-13
+site_uuid: 71246c22-7a71-4307-82fa-494fe3e02fc4
+hex_code: 5oh2ep
+date_authored_initial_draft: 2026-07-13
+date_authored_current_draft: 2026-07-13
+lede: >-
+  Pi's docs refuse MCP, sub-agents, permission popups, and plan mode by name —
+  then ship every one as a first-party example extension.
+summary: >-
+  Source-cited profile of the Pi submodule in the agent-harnesses study — the "deliberately minimal
+  core, capability-as-extension" corner. Verifies the refusals rather than repeating them: a
+  whole-repo search finds no vendored MCP implementation at all, the four apparent hits are docs, a
+  test fixture, and an unrelated OAuth scope string. Documents the five-package npm workspace (not
+  Bun, not pnpm), the non-XDG `~/.pi/agent/` layout with a two-pass trust gate before any
+  project-local `.pi/` extension executes, lock-protected deep-merged settings, 38 provider modules
+  behind a browser-safe abstraction, and the JSONL session tree whose `setLeafId` is additive by
+  construction. Tool-call events are typed and hookable but there is no exporter — `@opentelemetry/api`
+  is present and unused. Two honest drift findings are recorded: a stale biome exclude and a skill
+  file citing a registrar path that no longer exists at this commit.
+publish: true
 ---
 
 # Pi — Profile
