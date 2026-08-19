@@ -17,6 +17,7 @@ site_uuid: 23a28167-575d-43bc-927e-ed8e77a1ade5
 hex_code: d8e5mi
 date_authored_initial_draft: 2026-07-13
 date_authored_current_draft: 2026-07-13
+publish: true
 ---
 
 # Targeted Questions — Agent Harnesses
