@@ -1,5 +1,6 @@
 ---
 name: Goose Profile
+title: "Goose — Profile"
 slug: goose
 upstream: https://github.com/aaif-goose/goose
 package: "n/a (Rust crates: goose, goose-cli, goose-mcp; distributed as CLI/desktop binaries)"
@@ -9,6 +10,9 @@ study: studies/agent-harnesses
 profile_path: studies/agent-harnesses/goose
 profile_kind: Rust CLI + desktop (Electron) + API harness, MCP-native
 date_created: 2026-07-13
+date_modified: 2026-08-18
+authors:
+  - Michael Staton
 site_uuid: 870167a3-fe82-422b-8b64-b826216d14d7
 hex_code: 9kvq72
 date_authored_initial_draft: 2026-07-13
@@ -27,6 +31,7 @@ summary: >-
   declare their own extension list inline, `tracing`-crate spans exported to Langfuse or OTLP, and
   the split between `SKILL.md` durable capabilities and ambient `.goosehints`/`AGENTS.md` hints
   loaded lazily per subdirectory. Use it as the reference for permission-gated MCP ecosystems.
+status: Reference
 publish: true
 type: Profiles
 ---

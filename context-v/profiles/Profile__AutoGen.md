@@ -1,5 +1,6 @@
 ---
 name: AutoGen Profile
+title: "AutoGen — Profile"
 slug: autogen
 upstream: https://github.com/microsoft/autogen
 package: autogen-core / autogen-agentchat / autogen-ext (PyPI, version 0.7.5 pinned in this checkout)
@@ -9,6 +10,9 @@ study: studies/agent-harnesses
 profile_path: studies/agent-harnesses/autogen
 profile_kind: Python multi-agent orchestration framework, layered core/agentchat/ext architecture, now in maintenance mode
 date_created: 2026-07-13
+date_modified: 2026-08-18
+authors:
+  - Michael Staton
 site_uuid: e42a62f5-d410-4a8d-a525-c168319d5418
 hex_code: c6ajat
 date_authored_initial_draft: 2026-07-13
@@ -26,6 +30,7 @@ summary: >-
   MCP bridge — native `Tool`/`BaseTool`/`Workbench` came first, MCP is adapted into that shape
   behind an optional extra — which is the inverse of most other entries in the study. Note the
   maintenance-mode status before recommending it for new work.
+status: Reference
 publish: true
 type: Profiles
 ---

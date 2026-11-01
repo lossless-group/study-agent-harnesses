@@ -1,5 +1,6 @@
 ---
 name: Continue Profile
+title: "Continue — Profile"
 slug: continue
 upstream: https://github.com/continuedev/continue
 package: "@continuedev/cli (npm), Continue (VS Code / OpenVSX), Continue (JetBrains)"
@@ -9,6 +10,9 @@ study: studies/agent-harnesses
 profile_path: studies/agent-harnesses/continue
 profile_kind: IDE extension (VS Code, JetBrains) + CLI, shared YAML config core
 date_created: 2026-07-13
+date_modified: 2026-08-18
+authors:
+  - Michael Staton
 site_uuid: 823906e2-c0b4-408a-b757-dc7813d3dc44
 hex_code: w7drj9
 date_authored_initial_draft: 2026-07-13
@@ -27,6 +31,7 @@ summary: >-
   `rules.md` files discovered by directory walk with incremental per-file cache updates). Treat the
   checkout as a frozen reference: the upstream repo is archived, and the `uses`/`with`/`override`
   block-reference system depends on a hub service that may not stay reachable.
+status: Reference
 publish: true
 type: Profiles
 ---

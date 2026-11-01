@@ -1,5 +1,6 @@
 ---
 name: Pi Profile
+title: "Pi — Profile"
 slug: pi
 upstream: https://github.com/earendil-works/pi
 package: "@earendil-works/pi-coding-agent (npm, distributed as `pi`); monorepo also publishes @earendil-works/pi-ai, @earendil-works/pi-agent-core, @earendil-works/pi-tui, @earendil-works/pi-orchestrator"
@@ -9,6 +10,9 @@ study: studies/agent-harnesses
 profile_path: studies/agent-harnesses/pi
 profile_kind: coding-agent-harness (CLI + extension SDK, npm monorepo)
 date_created: 2026-07-13
+date_modified: 2026-08-18
+authors:
+  - Michael Staton
 site_uuid: 71246c22-7a71-4307-82fa-494fe3e02fc4
 hex_code: 5oh2ep
 date_authored_initial_draft: 2026-07-13
@@ -27,6 +31,7 @@ summary: >-
   construction. Tool-call events are typed and hookable but there is no exporter — `@opentelemetry/api`
   is present and unused. Two honest drift findings are recorded: a stale biome exclude and a skill
   file citing a registrar path that no longer exists at this commit.
+status: Reference
 publish: true
 type: Profiles
 ---

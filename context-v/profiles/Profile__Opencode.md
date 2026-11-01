@@ -1,5 +1,6 @@
 ---
 name: OpenCode Profile
+title: "OpenCode — Profile"
 slug: opencode
 upstream: https://github.com/anomalyco/opencode
 package: opencode-ai (npm); binary distributed via `curl -fsSL https://opencode.ai/install | bash`, Homebrew (`anomalyco/tap/opencode`), and Nix
@@ -9,6 +10,9 @@ study: studies/agent-harnesses
 profile_path: studies/agent-harnesses/opencode
 profile_kind: coding-agent-harness (CLI + TUI + server + desktop + SDKs)
 date_created: 2026-07-13
+date_modified: 2026-08-18
+authors:
+  - Michael Staton
 site_uuid: 9e8914e1-acae-4cd0-8e2c-00bde588aa9f
 hex_code: sq77yy
 date_authored_initial_draft: 2026-07-13
@@ -28,6 +32,7 @@ summary: >-
   skills, MCP prompts, and slash commands into one namespace. Read `CONTEXT.md` and the repo's own
   dogfooded `.opencode/` directory first. Includes a negative finding on the `sst/opencode` org-name
   question — no evidence of the prior name survives in this checkout.
+status: Reference
 publish: true
 type: Profiles
 ---

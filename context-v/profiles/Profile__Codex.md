@@ -1,5 +1,6 @@
 ---
 name: Codex Profile
+title: "Codex — Profile"
 slug: codex
 upstream: https://github.com/openai/codex
 package: n/a (Rust crates under codex-rs/, published as @openai/codex CLI + platform binaries)
@@ -9,6 +10,9 @@ study: studies/agent-harnesses
 profile_path: studies/agent-harnesses/codex
 profile_kind: Rust terminal coding-agent CLI, OS-level sandbox enforcement, MCP client+server
 date_created: 2026-07-13
+date_modified: 2026-08-18
+authors:
+  - Michael Staton
 site_uuid: b5d39c8d-feec-404d-8412-11d2ba000c1c
 hex_code: jflus4
 date_authored_initial_draft: 2026-07-13
@@ -26,6 +30,7 @@ summary: >-
   with an `AGENTS.override.md` escape hatch, a separate `SKILL.md` loader, and MCP support in both
   directions (client and server in the same binary). Reach for this profile when the design question
   is blast-radius containment rather than tool visibility.
+status: Reference
 publish: true
 type: Profiles
 ---

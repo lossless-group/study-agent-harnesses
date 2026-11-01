@@ -1,5 +1,6 @@
 ---
 name: Aider Profile
+title: "Aider — Profile"
 slug: aider
 upstream: https://github.com/Aider-AI/aider
 package: aider-chat (PyPI)
@@ -9,6 +10,9 @@ study: studies/agent-harnesses
 profile_path: studies/agent-harnesses/aider
 profile_kind: CLI coding agent (terminal, git-native)
 date_created: 2026-07-13
+date_modified: 2026-08-18
+authors:
+  - Michael Staton
 site_uuid: a3d470fd-b911-4073-9306-e3ac6c16d1a4
 hex_code: gkvbv7
 date_authored_initial_draft: 2026-07-13
@@ -26,6 +30,7 @@ summary: >-
   no permission gate, and no structured trace to scope — and when git-commit-as-trace is being
   weighed against event streams or session databases. Cross-references the Opencode and Goose
   profiles as the other two points on that spectrum.
+status: Reference
 publish: true
 type: Profiles
 ---

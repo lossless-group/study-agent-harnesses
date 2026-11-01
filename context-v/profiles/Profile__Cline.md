@@ -1,5 +1,6 @@
 ---
 name: Cline Profile
+title: "Cline — Profile"
 slug: cline
 upstream: https://github.com/cline/cline
 package: "cline (npm, CLI), Cline (VS Code Marketplace / OpenVSX), @cline/core / @cline/sdk (workspace packages)"
@@ -9,6 +10,9 @@ study: studies/agent-harnesses
 profile_path: studies/agent-harnesses/cline
 profile_kind: VS Code extension + CLI + headless "Cline Core", gRPC/protobuf host-bridge
 date_created: 2026-07-13
+date_modified: 2026-08-18
+authors:
+  - Michael Staton
 site_uuid: 98921df7-a618-45af-8f13-89dac909bfac
 hex_code: mmfijg
 date_authored_initial_draft: 2026-07-13
@@ -27,6 +31,7 @@ summary: >-
   loader; and MCP config is machine-global only — one JSON file guarded by a directory-rename
   cross-process lock, with no per-project scoping anywhere. Cite the last one whenever per-project
   MCP isolation is a requirement.
+status: Reference
 publish: true
 type: Profiles
 ---

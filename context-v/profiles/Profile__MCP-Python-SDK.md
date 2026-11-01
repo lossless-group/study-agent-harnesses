@@ -1,5 +1,6 @@
 ---
 name: MCP Python SDK Profile
+title: "MCP Python SDK — Profile"
 slug: mcp-python-sdk
 upstream: https://github.com/modelcontextprotocol/python-sdk
 package: mcp (PyPI)
@@ -9,6 +10,9 @@ study: studies/agent-harnesses
 profile_path: studies/agent-harnesses/mcp-python-sdk
 profile_kind: library (client + server SDK)
 date_created: 2026-07-13
+date_modified: 2026-08-18
+authors:
+  - Michael Staton
 site_uuid: 01e448b7-4400-429f-82d9-0aeb5e08290d
 hex_code: 9a9xuz
 date_authored_initial_draft: 2026-07-13
@@ -27,6 +31,7 @@ summary: >-
   harness in the study), the shielded stdio shutdown escalation worth trusting rather than
   reimplementing, and `ClientSessionGroup` for merging N servers into one namespace. Pin `mcp<2`
   before quoting any of these API shapes into production code.
+status: Reference
 publish: true
 type: Profiles
 ---

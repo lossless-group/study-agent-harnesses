@@ -1,5 +1,6 @@
 ---
 name: OpenHands Profile
+title: "OpenHands — Profile"
 slug: openhands
 upstream: https://github.com/OpenHands/OpenHands
 package: "N/A (npm: @openhands/agent-canvas; PyPI deps: openhands-sdk, openhands-agent-server, openhands-tools)"
@@ -9,6 +10,9 @@ study: studies/agent-harnesses
 profile_path: studies/agent-harnesses/OpenHands
 profile_kind: control-plane frontend + app-server (formerly monolithic agent runtime, now split)
 date_created: 2026-07-13
+date_modified: 2026-08-18
+authors:
+  - Michael Staton
 site_uuid: 4979cd8b-58de-4fe8-bae3-ccc714870513
 hex_code: xhq2h8
 date_authored_initial_draft: 2026-07-13
@@ -28,6 +32,7 @@ summary: >-
   event stream into an automation trigger; and ACP as the bring-your-own-agent seam. Do not look
   here for the think-act-observe loop or the `Event` schema itself — both live upstream in
   `software-agent-sdk`.
+status: Reference
 publish: true
 type: Profiles
 ---
