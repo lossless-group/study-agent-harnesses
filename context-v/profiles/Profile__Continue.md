@@ -28,6 +28,7 @@ summary: >-
   checkout as a frozen reference: the upstream repo is archived, and the `uses`/`with`/`override`
   block-reference system depends on a hub service that may not stay reachable.
 publish: true
+type: Profiles
 ---
 
 # Continue — Profile

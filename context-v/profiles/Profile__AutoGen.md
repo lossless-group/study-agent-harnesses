@@ -27,6 +27,7 @@ summary: >-
   behind an optional extra — which is the inverse of most other entries in the study. Note the
   maintenance-mode status before recommending it for new work.
 publish: true
+type: Profiles
 ---
 
 # AutoGen — Profile

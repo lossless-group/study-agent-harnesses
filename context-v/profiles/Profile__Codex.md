@@ -27,6 +27,7 @@ summary: >-
   directions (client and server in the same binary). Reach for this profile when the design question
   is blast-radius containment rather than tool visibility.
 publish: true
+type: Profiles
 ---
 
 # Codex — Profile

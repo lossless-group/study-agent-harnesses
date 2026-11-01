@@ -28,6 +28,7 @@ summary: >-
   is present and unused. Two honest drift findings are recorded: a stale biome exclude and a skill
   file citing a registrar path that no longer exists at this commit.
 publish: true
+type: Profiles
 ---
 
 # Pi — Profile

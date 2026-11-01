@@ -28,6 +28,7 @@ summary: >-
   the split between `SKILL.md` durable capabilities and ambient `.goosehints`/`AGENTS.md` hints
   loaded lazily per subdirectory. Use it as the reference for permission-gated MCP ecosystems.
 publish: true
+type: Profiles
 ---
 
 # Goose — Profile

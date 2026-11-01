@@ -28,6 +28,7 @@ summary: >-
   cross-process lock, with no per-project scoping anywhere. Cite the last one whenever per-project
   MCP isolation is a requirement.
 publish: true
+type: Profiles
 ---
 
 # Cline — Profile

@@ -27,6 +27,7 @@ summary: >-
   weighed against event streams or session databases. Cross-references the Opencode and Goose
   profiles as the other two points on that spectrum.
 publish: true
+type: Profiles
 ---
 
 # Aider — Profile

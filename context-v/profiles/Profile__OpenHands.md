@@ -29,6 +29,7 @@ summary: >-
   here for the think-act-observe loop or the `Event` schema itself — both live upstream in
   `software-agent-sdk`.
 publish: true
+type: Profiles
 ---
 
 # OpenHands — Profile

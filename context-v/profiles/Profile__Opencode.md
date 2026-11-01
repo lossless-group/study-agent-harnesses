@@ -29,6 +29,7 @@ summary: >-
   dogfooded `.opencode/` directory first. Includes a negative finding on the `sst/opencode` org-name
   question — no evidence of the prior name survives in this checkout.
 publish: true
+type: Profiles
 ---
 
 # OpenCode — Profile

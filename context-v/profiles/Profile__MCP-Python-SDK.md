@@ -28,6 +28,7 @@ summary: >-
   reimplementing, and `ClientSessionGroup` for merging N servers into one namespace. Pin `mcp<2`
   before quoting any of these API shapes into production code.
 publish: true
+type: Profiles
 ---
 
 # MCP Python SDK — Profile
