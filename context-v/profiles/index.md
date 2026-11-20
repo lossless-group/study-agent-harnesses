@@ -10,3 +10,4 @@
 * [OpenCode — Profile](Profile__Opencode.md) - A terminal coding agent with 38 SQLite migrations and real OTLP tracing — built like a production SaaS backend, and no Go anywhere.
 * [OpenHands — Profile](Profile__OpenHands.md) - Pin `OpenHands/OpenHands` today and you do not get the agent — the CodeAct loop moved out to a versioned pip dependency.
 * [Pi — Profile](Profile__Pi.md) - Pi's docs refuse MCP, sub-agents, permission popups, and plan mode by name — then ship every one as a first-party example extension.
+* [Tome — Profile](Profile__Tome.md) - Tome is not a harness. It writes the config for seventeen of them, then serves every skill over MCP so the agent loads one at a time.

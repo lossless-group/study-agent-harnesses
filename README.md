@@ -52,6 +52,7 @@ Working checklist per entry:
 | VS Code extension harness; `.clinerules/` + documented "Memory Bank" markdown convention persisted across sessions, first-class MCP config UI | [cline](./cline) |
 | First-party frontier-lab terminal harness (Rust rewrite); OS-level sandbox policies instead of prompt-level permission gates, own AGENTS.md/skills convention | [codex](./codex) |
 | TypeScript monorepo (`pi-ai`/`pi-agent-core`/`pi-coding-agent`/`pi-tui`); unified multi-provider LLM API, session rewind/branching, subagents, MCP adapter as an extension package, own AGENTS.md | [pi](./pi) |
+| Not a harness but a layer above 17 of them: one local catalog of skills, commands, agents and hooks, wired into each harness's native MCP config and rules file, then served over MCP so the agent searches and loads one skill at a time, by tier. Closest existing tool to context-v.dev's skill layer. Shallow pin; fetch with `git submodule update --init --depth 1 tome` | [tome](./tome) |
 
 ## Candidates — surfaced, not yet pinned
 

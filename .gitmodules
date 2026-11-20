@@ -28,3 +28,7 @@
 [submodule "pi"]
 	path = pi
 	url = https://github.com/earendil-works/pi.git
+[submodule "tome"]
+	path = tome
+	url = https://github.com/devrelaicom/tome.git
+	shallow = true
