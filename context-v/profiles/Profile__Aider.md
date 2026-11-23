@@ -10,13 +10,13 @@ study: studies/agent-harnesses
 profile_path: studies/agent-harnesses/aider
 profile_kind: CLI coding agent (terminal, git-native)
 date_created: 2026-07-13
-date_modified: 2026-08-18
+date_modified: 2026-11-23
 authors:
   - Michael Staton
 site_uuid: a3d470fd-b911-4073-9306-e3ac6c16d1a4
 hex_code: gkvbv7
 date_authored_initial_draft: 2026-07-13
-date_authored_current_draft: 2026-07-13
+date_authored_current_draft: 2026-11-23
 lede: >-
   Aider has no tool-call loop and no MCP client — not a thin one, none at all.
   It reads diffs straight out of plain chat text.
@@ -201,6 +201,10 @@ If you read three files: `aider/coders/base_coder.py` (the loop, `apply_updates`
 | **Best fit** | Git-repo-centric solo/pair coding where commit history as audit trail is valuable | Terminal-first agent work needing a real, swappable MCP toolset | Desktop/CLI agent work built around composable MCP extensions |
 
 The crucial axis Aider owns in this study is **git-commit-as-trace**: no other entry collapses "did the edit happen," "what did it change," "why," and "who/what authored it" into a single git object the way Aider does. That is a genuinely different answer to the study's tracing question than event-stream logging (OpenHands) or structured session storage (opencode, goose) — and it comes at the explicit cost of having no tool-call loop and no MCP client to scope in the first place.
+
+## Changes since the previous pin (2026-05-22 → 2026-05-22)
+
+Nothing changed: `main` is still at `5dc9490bb35f` (0 new commits as of 2026-11-23), so every citation above holds. The last GitHub release remains `v0.86.0` (2025-08-09).
 
 ## One-line summary
 

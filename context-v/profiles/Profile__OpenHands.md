@@ -4,28 +4,29 @@ title: "OpenHands — Profile"
 slug: openhands
 upstream: https://github.com/OpenHands/OpenHands
 package: "N/A (npm: @openhands/agent-canvas; PyPI deps: openhands-sdk, openhands-agent-server, openhands-tools)"
-license: MIT (enterprise/ carved out under a separate enterprise/LICENSE)
+license: MIT (the enterprise/ folder and its separate license were removed with the Python app-server, 2026-07-27)
 maintainer: OpenHands (formerly OpenDevin / All-Hands-AI)
 study: studies/agent-harnesses
 profile_path: studies/agent-harnesses/OpenHands
 profile_kind: control-plane frontend + app-server (formerly monolithic agent runtime, now split)
 date_created: 2026-07-13
-date_modified: 2026-08-18
+date_modified: 2026-11-23
 authors:
   - Michael Staton
 site_uuid: 4979cd8b-58de-4fe8-bae3-ccc714870513
 hex_code: xhq2h8
 date_authored_initial_draft: 2026-07-13
-date_authored_current_draft: 2026-07-13
+date_authored_current_draft: 2026-11-23
 lede: >-
-  Pin `OpenHands/OpenHands` today and you do not get the agent — the CodeAct
-  loop moved out to a versioned pip dependency.
+  Pin `OpenHands/OpenHands` today and you get a React frontend only: the agent
+  and its server now live in other repos.
 summary: >-
-  Source-cited profile of the OpenHands submodule in the agent-harnesses study, pinned after the
-  Agent Canvas transition. Opens by establishing what the checkout actually contains, because that
-  changes how every other file in it should be read: a FastAPI app-server plus React frontend, with
-  the agent runtime consumed as exact-version PyPI packages. The reusable architecture documented
-  here is the `EventService` ABC with four interchangeable persistence backends (filesystem as one
+  Source-cited profile of the OpenHands submodule in the agent-harnesses study. At the November
+  2026 pin the repo is only the Agent Canvas React/TypeScript frontend and Electron shell, talking to
+  a separately run Agent Server from `software-agent-sdk`; the Python app-server was deleted on
+  2026-07-27. The body records the July pin, when the checkout was a FastAPI app-server plus React
+  frontend with the agent runtime consumed as exact-version PyPI packages. The architecture documented
+  from that pin is the `EventService` ABC with four interchangeable persistence backends (filesystem as one
   JSON file per event, plus SQL/AWS/GCS) selected by deploy-time injection; the FastMCP router that
   both hosts OpenHands' own git-provider tools and namespace-mounts a third-party MCP server so the
   sandbox never sees the real API key; a webhook/event-callback subsystem with retry that turns the
@@ -39,19 +40,21 @@ type: Profiles
 
 # OpenHands — Profile
 
-A profile of OpenHands as it lives in this study (`studies/agent-harnesses/OpenHands/`, pinned at `5f9906f`, 2026-07-13). Cites pinned paths so you can jump to source rather than trust paraphrase. Read alongside [`Profile__Aider.md`](./Profile__Aider.md) and [`Profile__Opencode.md`](./Profile__Opencode.md) — OpenHands is the outlier of the three: **the repo you actually get when you pin `OpenHands/OpenHands` is no longer the agent**, it's the control-plane UI and server that talks to the agent.
+A profile of OpenHands as it lives in this study (`studies/agent-harnesses/OpenHands/`, first profiled at `5f9906f`, 2026-07-13; re-pinned at `c5e47c4b4dab`, 2026-11-22). Cites pinned paths so you can jump to source rather than trust paraphrase. Read alongside [`Profile__Aider.md`](./Profile__Aider.md) and [`Profile__Opencode.md`](./Profile__Opencode.md) — OpenHands is the outlier of the three: **the repo you actually get when you pin `OpenHands/OpenHands` is no longer the agent**, it's the control-plane UI and server that talks to the agent.
+
+> **Read this first (2026-11-23 pin).** On 2026-07-27, two weeks after the July pin, upstream commit `cb9138caf` ("clear repository for Agent Canvas migration", #15397) deleted the Python app-server, `enterprise/`, `frontend/`, and `pyproject.toml`, and the history of the separate `OpenHands/agent-canvas` repo was merged in. At this pin the repo is **only the Agent Canvas React/TypeScript frontend** plus an Electron desktop shell (`AGENTS.md:5`, `package.json:2-3`, `electron/`). The `EventService` backends, the FastMCP router, the webhook subsystem, and the skill-loading proxy described below are a record of the July pin; none of those paths exist now. The changes section near the end says where that work went.
 
 ## TL;DR
 
-The README says it plainly, and it changes everything about how this profile has to be written (`README.md:14`, banner note directly under the description):
+The README says it plainly, and it changes everything about how this profile has to be written (July pin `README.md:14`, banner note directly under the description; the banner is gone now that the move is done):
 
 > The code in this repo is moving! See [Agent Canvas transition FAQ]... The source code for OpenHands Agent and Agent Server lives in [OpenHands/software-agent-sdk](https://github.com/OpenHands/software-agent-sdk). The source code for Agent Canvas lives in [OpenHands/agent-canvas](https://github.com/OpenHands/agent-canvas).
 
-What's pinned in this study's checkout is **Agent Canvas**: "the self-hosted developer control center for coding agents and automations" (`README.md:6`) — a frontend + FastAPI app-server that can drive OpenHands' own agent, or Claude Code, Codex, Gemini, or "any ACP-compatible agent" (`README.md:8`), across local/Docker/VM/cloud backends. The CodeAct agent loop, the micro-agent (now "Skill") execution engine, and the actual event-stream *producer* do not live in this checkout at all — they are pip/npm dependencies pinned in `pyproject.toml:` `"openhands-agent-server==1.36.0"`, `"openhands-sdk==1.36.0"`, `"openhands-tools==1.36.0"` (verified: `grep openhands-sdk pyproject.toml`). This repo imports `Event` and `Skill` types from that external `openhands.sdk` package (`openhands/app_server/event/event_service.py:11` — `from openhands.sdk import Event`; `openhands/app_server/app_conversation/skill_loader.py:24` — `from openhands.sdk.skills import KeywordTrigger, Skill, TaskTrigger`) rather than defining them.
+What's pinned in this study's checkout is **Agent Canvas**: "the self-hosted developer control center for coding agents and automations" (`README.md:7`) — at the July pin a frontend + FastAPI app-server, now a frontend only, that can drive OpenHands' own agent, or Claude Code, Codex, Gemini, Pi, OpenCode, or "any ACP-compatible agent" (`README.md:10`), across local/Docker/VM/cloud backends. The CodeAct agent loop, the micro-agent (now "Skill") execution engine, and the actual event-stream *producer* do not live in this checkout at all — at the July pin they were PyPI dependencies pinned in `pyproject.toml` (`openhands-agent-server==1.36.0`, `openhands-sdk==1.36.0`, `openhands-tools==1.36.0`). At this pin there is no Python in the repo; the frontend reaches a separately launched Agent Server through `@openhands/typescript-client` `1.63.1` (`package.json:28`), with the launcher versions pinned in `config/defaults.json` (`agentServer` `1.63.1`, `automation` `1.34.1`). This repo imports `Event` and `Skill` types from that external `openhands.sdk` package (`openhands/app_server/event/event_service.py:11` — `from openhands.sdk import Event`; `openhands/app_server/app_conversation/skill_loader.py:24` — `from openhands.sdk.skills import KeywordTrigger, Skill, TaskTrigger`) rather than defining them.
 
 What remains here, and is real, cited, load-bearing architecture in its own right: an **`EventService` abstraction with four interchangeable persistence backends** (filesystem, SQL, AWS, Google Cloud — `openhands/app_server/event/{filesystem,event}_service.py`, `aws_event_service.py`, `google_cloud_event_service.py`), an **event-callback/webhook subsystem** for external integrations (`openhands/app_server/event_callback/`), a **FastMCP-based MCP router** that both hosts OpenHands' own tools (`create_pr`, `create_mr`, `create_bitbucket_pr`, ...) and proxies third-party MCP servers into the sandbox (Tavily, mounted under a namespace — `openhands/app_server/mcp/mcp_router.py:49-76`), and an explicit **skill-loading proxy** that documents itself as "a thin proxy" over the agent-server (`openhands/app_server/app_conversation/skill_loader.py:1-10`).
 
-If you want one sentence: **the `OpenHands/OpenHands` submodule pinned in this study is Agent Canvas — a self-hosted control-plane (FastAPI app-server + React frontend) that persists agent trajectories as one `Event`-per-file (or SQL/AWS/GCS row) via a pluggable `EventService`, proxies MCP tool calls (its own git-provider tools plus mounted third-party MCP servers like Tavily) into agent sandboxes, and drives OpenHands' own CodeAct agent or any ACP-compatible agent (Claude Code, Codex, Gemini) — while the actual CodeAct loop, micro-agent/Skill execution, and event *production* now live in the separate `OpenHands/software-agent-sdk` repo as a versioned dependency, not in this checkout.**
+If you want one sentence (written for the July pin; at this pin only the React frontend remains): **the `OpenHands/OpenHands` submodule pinned in this study is Agent Canvas — a self-hosted control-plane (FastAPI app-server + React frontend) that persists agent trajectories as one `Event`-per-file (or SQL/AWS/GCS row) via a pluggable `EventService`, proxies MCP tool calls (its own git-provider tools plus mounted third-party MCP servers like Tavily) into agent sandboxes, and drives OpenHands' own CodeAct agent or any ACP-compatible agent (Claude Code, Codex, Gemini) — while the actual CodeAct loop, micro-agent/Skill execution, and event *production* now live in the separate `OpenHands/software-agent-sdk` repo as a versioned dependency, not in this checkout.**
 
 ## Why this exists — from monolithic agent to control-plane + swappable backend
 
@@ -160,6 +163,20 @@ Frontend-side MCP configuration is a full settings surface, not just a config fi
 
 ## What's inside this submodule
 
+At this pin (`c5e47c4b4dab`):
+
+| Path | What's there |
+|---|---|
+| `README.md`, `AGENTS.md` | Agent Canvas positioning, and a repository-ownership table naming which repo owns what (`AGENTS.md`, "Repository Ownership") |
+| `src/api/` | Clients for the Agent Server (`agent-server-adapter.ts`, `agent-server-config.ts`), ACP agents (`acp-service/`), automations (`automation-service/`), and multiple backends (`backend-registry/`) |
+| `src/types/mcp-server.ts`, `src/types/mcp-health.ts` | MCP settings types; MCP itself is served by the Agent Server |
+| `config/defaults.json` | Single source of truth for Agent Server, automation, and Canvas version pins, ports, and state paths |
+| `electron/` | Electron desktop app (`electron-builder.config.mjs`) |
+| `docker/`, `helm/` | Container and Kubernetes packaging |
+| `.agents/skills/` | Contributor skills for this repo; public skills come from `@openhands/extensions` (`AGENTS.md`) |
+
+At the July pin (`5f9906fbdac3`; every path below except `README.md` is gone):
+
 | Path | What's there |
 |---|---|
 | `README.md` | States the repo split explicitly — Agent/Agent Server code is in `software-agent-sdk`; this repo is Agent Canvas |
@@ -179,7 +196,7 @@ Frontend-side MCP configuration is a full settings surface, not just a config fi
 | `openhands/analytics/EVENTS.md` | Analytics event taxonomy (product telemetry, distinct from agent trajectory events) |
 | `tests/unit/mcp/test_mcp_integration.py`, `tests/unit/app_server/test_webhook_router_acp.py` | Test coverage confirming MCP + ACP are actively exercised, not vestigial |
 
-If you read three files: `README.md` in full (the transition banner changes how every other file should be read), `openhands/app_server/event/event_service.py` (the `EventService` ABC — the whole trajectory-persistence contract fits here), and `openhands/app_server/mcp/mcp_router.py` (both MCP-hosting and MCP-proxying patterns in one file).
+At the July pin, if you read three files: `README.md` in full (the transition banner changes how every other file should be read), `openhands/app_server/event/event_service.py` (the `EventService` ABC — the whole trajectory-persistence contract fits here), and `openhands/app_server/mcp/mcp_router.py` (both MCP-hosting and MCP-proxying patterns in one file).
 
 ## Mental model for using it well
 
@@ -196,12 +213,21 @@ If you read three files: `README.md` in full (the transition banner changes how 
 - **You're evaluating "how good is the agent at coding tasks."** That's an `software-agent-sdk` + benchmark question; this repo's tests are about webhook delivery, MCP routing, and conversation lifecycle, not agent task performance.
 - **You want a lightweight CLI tool.** OpenHands/Agent Canvas is explicitly a "developer control center" — FastAPI app-server, React frontend, sandbox provisioning, optional enterprise analytics. The minimum viable install is `npm install -g @openhands/agent-canvas` plus `uv`, not a single binary.
 
+## Changes since the previous pin (2026-07-13 → 2026-11-22)
+
+- Old pin `5f9906fbdac3`, new pin `c5e47c4b4dab`, 2,145 commits (the count includes the merged-in history of `OpenHands/agent-canvas`). Releases: `@openhands/agent-canvas` from `v1.7.0` (2026-07-29) to **`v1.43.0` (2026-11-20)** (`package.json:3`).
+- **The Python app-server is gone from this repo.** Commit `cb9138caf` (2026-07-27, #15397) cleared the repository, and the Agent Canvas frontend took its place. `openhands/app_server/` (`EventService` and its four backends, `mcp_router.py`, `event_callback/`, `skill_loader.py`), `enterprise/` and its separate license, `frontend/`, and `pyproject.toml` all no longer exist. `AGENTS.md` now assigns events, conversations, tools, and the REST/WebSocket API to `OpenHands/software-agent-sdk`, scheduling and webhooks to `OpenHands/automation`, and public skills to `OpenHands/extensions`.
+- **The lede's point is stronger, with a different mechanism.** The agent is still not here, but it is no longer a pip dependency of this repo. Canvas talks to a separately run Agent Server through `@openhands/typescript-client` (`package.json:28`); the launchers start `openhands-agent-server` and `openhands-automation` via `uvx` at the versions in `config/defaults.json`. Conversations are stored under `agent-canvas/conversations` by that server (`config/defaults.json`, `paths`).
+- **Wider bring-your-own-agent list.** The README now names Pi and OpenCode alongside Claude Code, Codex, and Gemini as ACP agents (`README.md:10`). An Electron desktop app (`electron/`) and a DigitalOcean Managed Agents backend (`config/defaults.json`, `mars`) are new.
+- `LICENSE` is MIT with no carve-out at this pin, since `enterprise/` is gone. The frontmatter `license` and `package` keys still describe the July pin.
+- To study the event stream, MCP proxying, or webhooks now, pin `OpenHands/software-agent-sdk` and `OpenHands/automation`; this repo no longer contains them.
+
 ## How this compares to the rest of the study
 
 | Axis | OpenHands (Agent Canvas) | opencode | Aider |
 |---|---|---|---|
-| **Shape** | Split: control-plane app-server + frontend, agent runtime is an external versioned dependency (`software-agent-sdk`) | CLI-first harness, owns its full stack including MCP client | CLI, git-native pair-programmer, no server at all |
-| **Where the agent loop lives** | **Not in this repo** — `openhands-sdk`/`openhands-agent-server` pip packages | In-repo, single process | In-repo, single process |
+| **Shape** | Frontend only at this pin (React + Electron); the app-server and agent runtime both live in `software-agent-sdk` and are reached over REST/WebSocket | CLI-first harness, owns its full stack including MCP client | CLI, git-native pair-programmer, no server at all |
+| **Where the agent loop lives** | **Not in this repo** — `openhands-agent-server`, launched separately and pinned in `config/defaults.json` | In-repo, single process | In-repo, single process |
 | **Trajectory persistence** | `EventService` ABC — filesystem (1 JSON file/event), SQL, AWS, GCS backends, selected by deploy config | Structured, readable session storage (JSON/DB-backed) | Flat append-only markdown chat-history file; git commits as the real trace |
 | **MCP support** | **Both host and proxy** — hosts its own git-provider tools as MCP tools, and mounts third-party MCP servers (Tavily) under a namespace to hide API keys from the sandbox | Native — opencode owns its MCP client | **None** — no MCP anywhere in source or docs |
 | **Multi-agent / delegation model** | Documented in `.openhands/microagents/glossary.md` (Agent Delegation, Agent Hub) but implemented upstream; this repo's Skills are proxied via `/api/skills` | N/A noted in this study | N/A — no tool-call loop at all |
@@ -213,4 +239,4 @@ The crucial axis OpenHands owns in this study is **the control-plane/agent-runti
 
 ## One-line summary
 
-> The `OpenHands/OpenHands` submodule pinned in this study is Agent Canvas, not the OpenHands agent — a self-hosted FastAPI control-plane + React frontend that persists agent trajectories through a pluggable `EventService` (filesystem/SQL/AWS/GCS backends, one `Event`-per-file locally), hosts and proxies MCP tools (its own git-provider tools plus a namespace-mounted Tavily proxy that hides API keys from the sandbox), and drives OpenHands' own CodeAct agent or any ACP-compatible agent (Claude Code, Codex, Gemini) — while the CodeAct loop and micro-agent/Skill execution that made OpenHands famous now live one versioned dependency away, in the separate `OpenHands/software-agent-sdk` repo, imported here (`from openhands.sdk import Event`, `from openhands.sdk.skills import Skill`) rather than owned.
+> (As of the July pin.) The `OpenHands/OpenHands` submodule pinned in this study is Agent Canvas, not the OpenHands agent — a self-hosted FastAPI control-plane + React frontend that persists agent trajectories through a pluggable `EventService` (filesystem/SQL/AWS/GCS backends, one `Event`-per-file locally), hosts and proxies MCP tools (its own git-provider tools plus a namespace-mounted Tavily proxy that hides API keys from the sandbox), and drives OpenHands' own CodeAct agent or any ACP-compatible agent (Claude Code, Codex, Gemini) — while the CodeAct loop and micro-agent/Skill execution that made OpenHands famous now live one versioned dependency away, in the separate `OpenHands/software-agent-sdk` repo, imported here (`from openhands.sdk import Event`, `from openhands.sdk.skills import Skill`) rather than owned.

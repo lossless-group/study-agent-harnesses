@@ -8,15 +8,15 @@ license: MIT (code, `LICENSE-CODE`) + CC-BY-4.0 (docs, `LICENSE`)
 maintainer: Microsoft
 study: studies/agent-harnesses
 profile_path: studies/agent-harnesses/autogen
-profile_kind: Python multi-agent orchestration framework, layered core/agentchat/ext architecture, now in maintenance mode
+profile_kind: Python multi-agent orchestration framework, layered core/agentchat/ext architecture, archived upstream (no longer maintained)
 date_created: 2026-07-13
-date_modified: 2026-08-18
+date_modified: 2026-11-23
 authors:
   - Michael Staton
 site_uuid: e42a62f5-d410-4a8d-a525-c168319d5418
 hex_code: c6ajat
 date_authored_initial_draft: 2026-07-13
-date_authored_current_draft: 2026-07-13
+date_authored_current_draft: 2026-11-23
 lede: >-
   Every AutoGen team type overrides exactly one method — `select_speaker()` —
   and that single seam is the whole difference between them.
@@ -28,8 +28,8 @@ summary: >-
   state persists as a name-keyed `TeamState.agent_states` dict nesting each agent's serialized
   `ChatCompletionContext` plus manager-specific turn counters. Also documents the direction of the
   MCP bridge — native `Tool`/`BaseTool`/`Workbench` came first, MCP is adapted into that shape
-  behind an optional extra — which is the inverse of most other entries in the study. Note the
-  maintenance-mode status before recommending it for new work.
+  behind an optional extra — which is the inverse of most other entries in the study. The upstream
+  repo is archived as of November 2026; treat it as reference only, not for new work.
 status: Reference
 publish: true
 type: Profiles
@@ -39,11 +39,11 @@ type: Profiles
 
 A profile of AutoGen as it lives in this study (`studies/agent-harnesses/autogen/`). Cites pinned paths so you can jump to source rather than trust paraphrase. Read alongside [`Profile__OpenHands.md`](./Profile__OpenHands.md) (event-stream trace architecture) and any opencode profile in this study (CLI-first single-agent, own MCP client) — AutoGen is this study's entry for **native multi-agent team orchestration with an explicit, swappable turn-taking algorithm per team type**, layered under a distributed actor-style runtime rather than built as a single-agent loop with delegation.
 
-`README.md:14,18-25` states the repo's current status plainly: **AutoGen is in maintenance mode** — "It will not receive new features or enhancements and is community managed going forward," with Microsoft steering new projects to [Microsoft Agent Framework](https://github.com/microsoft/agent-framework). This checkout is the 0.4+ generation (confirmed via `python/packages/{autogen-core,autogen-agentchat,autogen-ext}/pyproject.toml`, all `version = "0.7.5"`), the layered rewrite that replaced the 0.2.x monolithic `pyautogen` package (still present at `python/packages/pyautogen/` for migration reference, not read for this profile).
+`README.md:14,18-29` states the repo's current status plainly: **AutoGen is archived and no longer maintained** — "Microsoft is not providing bug fixes, security fixes, new features, or support for this project," with Microsoft steering new projects to [Microsoft Agent Framework](https://github.com/microsoft/agent-framework). (At the July 2026 pin the same banner said "maintenance mode"; see the changes section below.) This checkout is the 0.4+ generation (confirmed via `python/packages/{autogen-core,autogen-agentchat,autogen-ext}/pyproject.toml`, all `version = "0.7.5"`), the layered rewrite that replaced the 0.2.x monolithic `pyautogen` package (still present at `python/packages/pyautogen/` for migration reference, not read for this profile).
 
 ## TL;DR
 
-The README's own architecture summary (`README.md:179-183`):
+The README's own architecture summary (`README.md:185-189`):
 
 > The autogen _framework_ uses a layered and extensible design... [Core API] implements message passing, event-driven agents, and local and distributed runtime... [AgentChat API] implements a simpler but opinionated API for rapid prototyping... [Extensions API] enables first- and third-party extensions.
 
@@ -127,13 +127,13 @@ If you read three files: `autogen-agentchat/src/autogen_agentchat/teams/_group_c
 - **Treat `save_state()`/`load_state()` on a `Team` as the unit of durability**, not per-agent state in isolation — the nested `TeamState.agent_states` dict is what actually round-trips a paused conversation, including exactly whose turn is next.
 - **Reach for `Workbench`/`McpWorkbench` when tools share session state** (browser, DB connection); reach for plain `FunctionTool`/`McpToolAdapter` list entries when tools are stateless — both compose in the same `tools=`/`workbench=` agent constructor arguments.
 - **A nested `Team` is a valid participant of another `Team`** — `ChatAgentContainer` treats `Team` and `ChatAgent` participants uniformly via an `isinstance` check, so hierarchical team-of-teams composition is a first-class pattern, not a workaround.
-- **Given the maintenance-mode status (`README.md:18-25`), treat new capability gaps as permanent** unless the community fork/PR path resolves them — Microsoft's own guidance is to start new work on Microsoft Agent Framework instead.
+- **Given the archived status (`README.md:18-29`), treat every capability gap as permanent.** The GitHub repo is read-only, so there is no PR path; Microsoft's guidance is to start new work on Microsoft Agent Framework instead.
 
 ## When NOT to reach for this
 
-- **You're starting a new project today.** The README's own caution (`README.md:18-25,200-202`) is unambiguous: AutoGen is community-managed, bug-fixes-and-security-only, and Microsoft explicitly points new users at Microsoft Agent Framework.
+- **You're starting a new project today.** The README's own caution (`README.md:18-29,183`) is unambiguous: AutoGen is archived, receives no bug or security fixes, and Microsoft explicitly points new users at Microsoft Agent Framework.
 - **You want a single-agent CLI harness with its own MCP client as the primary interaction mode.** AutoGen's unit of work is the multi-agent `Team`; a single `AssistantAgent` works but the framework's actual design weight (topics, `ChatAgentContainer`, group-chat managers) is multi-agent-first.
-- **You need production-hardened authn/security out of the box for a no-code surface.** AutoGen Studio is explicitly flagged as prototyping-only, not production-ready (`README.md:160-164`).
+- **You need production-hardened authn/security out of the box for a no-code surface.** AutoGen Studio is explicitly flagged as prototyping-only, not production-ready (`README.md:166-168`).
 - **You want tool-calling to *be* MCP** with no native abstraction underneath. AutoGen's tool layer is native-first (`Tool`/`BaseTool`/`Workbench` predate MCP support in this codebase); if the entire point of adoption is "we standardize purely on MCP as the tool contract," the native layer is an extra abstraction to reason around, not a pure pass-through.
 - **You need a distributed, multi-process runtime out of the box.** The default `BaseGroupChat` runtime is `SingleThreadedAgentRuntime` (in-process); the "remote agent" and distributed runtime path is designed for (`agent_save_state`'s docstring comment) but a separate, heavier setup than the default.
 
@@ -142,16 +142,22 @@ If you read three files: `autogen-agentchat/src/autogen_agentchat/teams/_group_c
 | Axis | OpenHands | opencode | AutoGen |
 |---|---|---|---|
 | **Shape** | Multi-agent, event-stream trace architecture | CLI-first single-agent, own MCP client | Python framework, layered core/agentchat/ext, multi-agent teams as the primary unit |
-| **Status** | Actively developed | Actively developed | **Maintenance mode** — bug fixes/security only (`README.md:18-25`) |
+| **Status** | Actively developed | Actively developed | **Archived** — no fixes of any kind (`README.md:18-29`) |
 | **Multi-agent orchestration** | Event-stream-driven agent delegation | Not the primary unit (single-agent) | **First-class**: `Team` abstraction with 4 concrete turn-taking algorithms (Round Robin, Selector/LLM, Swarm/handoff, Magentic-One/planner) |
 | **Turn-taking mechanism** | Not profiled here | N/A | Pluggable `select_speaker()` per manager — modular index, LLM-prompted with retry, or handoff-message-target scan |
 | **Conversation-state persistence** | Not profiled here | Own session storage | Nested, name-keyed `TeamState.agent_states` dict; each agent's `ChatCompletionContext` messages + manager-specific turn state (e.g. `next_speaker_index`) |
 | **Tool-calling model** | Not profiled here | Own MCP client, structured tool-call loop | **Native-first**: `Tool`/`BaseTool`/`Workbench` protocol predates MCP; MCP bridged in via `McpToolAdapter`/`McpWorkbench` behind an optional `[mcp]` extra |
 | **Runtime substrate** | Event stream | Process/session model | Actor-style `AgentRuntime` (topics + subscriptions); default is in-process `SingleThreadedAgentRuntime`, designed for remote/distributed extension |
-| **Best fit** | Tracing/observability-centric agentic coding | Terminal-first agent work, swappable MCP toolset | Existing AutoGen deployments, or new work specifically wanting a multi-agent team with an explicit, swappable speaker-selection algorithm — with eyes open about maintenance-mode status |
+| **Best fit** | Tracing/observability-centric agentic coding | Terminal-first agent work, swappable MCP toolset | Existing AutoGen deployments, or new work specifically wanting a multi-agent team with an explicit, swappable speaker-selection algorithm — with eyes open about its archived status |
 
 The axis AutoGen owns in this study is **turn-taking as an explicit, swappable algorithm with its own serializable state** — no other entry in this study exposes "how the group decides who talks next" as a single overridable method (`select_speaker`) with three (four, counting Magentic-One) shipped implementations and per-implementation state schemas that round-trip through a uniform team-level `save_state`/`load_state` contract.
 
+## Changes since the previous pin (2026-04-06 → 2026-11-12)
+
+- Old pin `027ecf0a379b`, new pin `839098510` (`8390985108cb`), 3 commits, no new release (still `python-v0.7.5`).
+- **The repo is archived.** All three commits are docs: `README.md:14-29` swaps the "maintenance mode" badge and banner for "Project archived and no longer maintained" with no bug or security fixes, and `python/docs/src/index.md:46-53` adds the same caution to the docs landing page. GitHub reports `microsoft/autogen` as archived.
+- No code under `python/packages/` changed, so every source citation above holds at the new pin. Only README line numbers shifted (+6), and they are corrected above.
+
 ## One-line summary
 
-> AutoGen (0.7.5, layered `autogen-core`/`autogen-agentchat`/`autogen-ext`, now in Microsoft maintenance mode per `README.md:18-25`) runs multi-agent teams as actor-runtime topic graphs where `BaseGroupChatManager.select_speaker()` is the one seam three built-in team types override — `RoundRobinGroupChatManager`'s modular index, `SelectorGroupChatManager`'s LLM-prompted role selection with regex-mention parsing and retry/fallback, and `SwarmGroupChatManager`'s handoff-message-target scan — while conversation state persists as a `TeamState.agent_states` dict keyed by participant name (not runtime ID, deliberately decoupled since v0.4.9) nesting each agent's serialized `ChatCompletionContext` plus manager-specific turn-tracking fields; and tool-calling is native-first (`Tool`/`BaseTool`/`FunctionTool`/`Workbench` in `autogen-core`, predating MCP) with Model Context Protocol support bridged in as an adapter layer (`McpToolAdapter`, `McpWorkbench`) behind an optional `autogen-ext[mcp]` extra, not the framework's foundational tool contract.
+> AutoGen (0.7.5, layered `autogen-core`/`autogen-agentchat`/`autogen-ext`, archived by Microsoft per `README.md:18-29`) runs multi-agent teams as actor-runtime topic graphs where `BaseGroupChatManager.select_speaker()` is the one seam three built-in team types override — `RoundRobinGroupChatManager`'s modular index, `SelectorGroupChatManager`'s LLM-prompted role selection with regex-mention parsing and retry/fallback, and `SwarmGroupChatManager`'s handoff-message-target scan — while conversation state persists as a `TeamState.agent_states` dict keyed by participant name (not runtime ID, deliberately decoupled since v0.4.9) nesting each agent's serialized `ChatCompletionContext` plus manager-specific turn-tracking fields; and tool-calling is native-first (`Tool`/`BaseTool`/`FunctionTool`/`Workbench` in `autogen-core`, predating MCP) with Model Context Protocol support bridged in as an adapter layer (`McpToolAdapter`, `McpWorkbench`) behind an optional `autogen-ext[mcp]` extra, not the framework's foundational tool contract.

@@ -22,6 +22,33 @@ This is not memory-store internals (that's
 behavior** — what a harness process actually does with the filesystem,
 the session store, and the tool registry while it's alive.
 
+## Pins last refreshed 2026-11-23
+
+Every submodule was moved to the head of its upstream default branch on
+2026-11-23. Each profile in `context-v/profiles/` has a "Changes since the
+previous pin" section with the details.
+
+| Repo | Old → new commit date | Commits | Latest release at refresh |
+|---|---|---|---|
+| aider | 2026-05-22 → 2026-05-22 | 0 | `v0.86.0` (2025-08-09) |
+| autogen | 2026-04-06 → 2026-11-12 | 3 | `python-v0.7.5` (2025-09-29); repo archived |
+| cline | 2026-07-13 → 2026-11-20 | 1,278 | `v4.1.27` (2026-11-20) |
+| codex | 2026-07-13 → 2026-11-23 | 5,896 | `rust-v0.171.0` (2026-11-19) |
+| continue | 2026-06-18 → 2026-07-20 | 3 | none in range; `main` last tagged `v1.3.40-vscode` (2026-06-15) |
+| goose | 2026-07-13 → 2026-11-23 | 1,062 | `v1.60.2` (2026-11-20) |
+| mcp-python-sdk | 2026-07-10 → 2026-11-05 | 132 | `v2.3.0` (2026-10-02) |
+| opencode | 2026-07-13 → 2026-11-23 | 8,240 | `v2.3.2` (2026-11-18) |
+| OpenHands | 2026-07-13 → 2026-11-22 | 2,145 | `v1.43.0` (2026-11-20) |
+| pi | 2026-07-13 → 2026-11-22 | 3,236 | `v1.6.0` (2026-11-20) |
+| tome | 2026-07-16 → 2026-07-16 | 0 | `v0.7.18` (2026-07-10) |
+
+What changed for this study: AutoGen is archived; OpenHands is now a
+frontend only; Pi built MCP into its core; Codex dropped its MCP server
+mode and moved Linux sandboxing to bubblewrap + seccomp; Goose extracted
+its agent loop into `oi-kit`; OpenCode deleted `packages/opencode/` and
+`CONTEXT.md`; the MCP Python SDK shipped stable v2 and added a Skills
+extension.
+
 ## What we are looking at, repo by repo
 
 Working checklist per entry:
@@ -43,15 +70,15 @@ Working checklist per entry:
 | Bet | Entry |
 |---|---|
 | CLI-first harness; readable session storage, provider/tool registry, own MCP client | [opencode](./opencode) |
-| Extensions system that *is* an MCP client wrapper; session/recipe YAML | [goose](./goose) |
+| Extensions system that *is* an MCP client wrapper; session/recipe YAML. Since mid-2026 the agent loop is a state machine of operations in the repo's own `oi-kit` crates | [goose](./goose) |
 | Git-native, repo-map + diff edits; plain-file state (chat history, git commits as trace) | [aider](./aider) |
-| Explicit event-stream/trajectory logging; multi-agent delegation (CodeActAgent + micro-agents) | [OpenHands](./OpenHands) |
-| The reference MCP client/server implementation — tool discovery, capability negotiation at the protocol level | [mcp-python-sdk](./mcp-python-sdk) |
-| IDE-first, not CLI-first; `.continue/` YAML config-loading per project | [continue](./continue) |
-| Multi-agent orchestration exemplar; conversation-state persistence, group-chat manager | [autogen](./autogen) |
-| VS Code extension harness; `.clinerules/` + documented "Memory Bank" markdown convention persisted across sessions, first-class MCP config UI | [cline](./cline) |
-| First-party frontier-lab terminal harness (Rust rewrite); OS-level sandbox policies instead of prompt-level permission gates, own AGENTS.md/skills convention | [codex](./codex) |
-| TypeScript monorepo (`pi-ai`/`pi-agent-core`/`pi-coding-agent`/`pi-tui`); unified multi-provider LLM API, session rewind/branching, subagents, MCP adapter as an extension package, own AGENTS.md | [pi](./pi) |
+| Agent Canvas: a control-plane frontend (React + Electron) that runs OpenHands, Claude Code, Codex, Pi, OpenCode, or any ACP agent against separately run Agent Servers. The event stream, MCP, and agent loop now live in `OpenHands/software-agent-sdk`, not here (the Python app-server was deleted 2026-07-27) | [OpenHands](./OpenHands) |
+| The reference MCP client/server implementation — tool discovery, capability negotiation at the protocol level. v2 is stable since 2026-07-28, and `main` adds a Skills extension (SEP-2640) for serving skills over MCP | [mcp-python-sdk](./mcp-python-sdk) |
+| IDE-first, not CLI-first; `.continue/` YAML config-loading per project. Upstream README declares the repo read-only; no commits since 2026-07-20 | [continue](./continue) |
+| Multi-agent orchestration exemplar; conversation-state persistence, group-chat manager. **Archived** by Microsoft (November 2026); reference only, successor is Microsoft Agent Framework | [autogen](./autogen) |
+| VS Code extension + CLI + desktop harness on a shared `@cline/core` SDK; `.clinerules/` (moving to `.cline/rules`) + documented "Memory Bank" markdown convention persisted across sessions, first-class MCP config UI, MCP deliberately machine-global | [cline](./cline) |
+| First-party frontier-lab terminal harness (Rust rewrite); OS-level sandbox policies (Seatbelt; bubblewrap + seccomp) instead of prompt-level permission gates, own AGENTS.md/skills convention; MCP client only since the `mcp-server` mode was removed in September 2026 | [codex](./codex) |
+| TypeScript npm monorepo (`pi-ai`/`pi-agent-core`/`pi-coding-agent`/`pi-tui`, plus `pi-mcp`, `pi-durable`, `pi-telemetry` and others at v1.x); unified multi-provider LLM API, session rewind/branching, subagents and plan mode as example extensions, MCP built in since v0.99 on its own `pi-mcp` client, own AGENTS.md | [pi](./pi) |
 | Not a harness but a layer above 17 of them: one local catalog of skills, commands, agents and hooks, wired into each harness's native MCP config and rules file, then served over MCP so the agent searches and loads one skill at a time, by tier. Closest existing tool to context-v.dev's skill layer. Shallow pin; fetch with `git submodule update --init --depth 1 tome` | [tome](./tome) |
 
 ## Candidates — surfaced, not yet pinned
@@ -87,7 +114,9 @@ Concrete questions from the parent plan (Phase 2), not a general survey:
    scope for a given session — is there a live enable/disable model we
    can copy for "swap context"?
 2. How does `OpenHands`'s event-stream/trajectory log map onto a
-   cross-product trace/audit log?
+   cross-product trace/audit log? (As of the 2026-11-23 pin that code is
+   no longer in the pinned repo; it lives in `OpenHands/software-agent-sdk`,
+   which is not pinned here.)
 3. How does `continue`'s `.continue/` config loading handle per-project
    skill/rule swaps — the closest existing analog to swapping skillsets
    when switching between augment-it/dididecks/memopop?

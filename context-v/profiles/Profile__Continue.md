@@ -10,13 +10,13 @@ study: studies/agent-harnesses
 profile_path: studies/agent-harnesses/continue
 profile_kind: IDE extension (VS Code, JetBrains) + CLI, shared YAML config core
 date_created: 2026-07-13
-date_modified: 2026-08-18
+date_modified: 2026-11-23
 authors:
   - Michael Staton
 site_uuid: 823906e2-c0b4-408a-b757-dc7813d3dc44
 hex_code: w7drj9
 date_authored_initial_draft: 2026-07-13
-date_authored_current_draft: 2026-07-13
+date_authored_current_draft: 2026-11-23
 lede: >-
   Five differently-scoped assistants can ship side by side in one project and
   swap mid-session — hot-swapping a skillset per project.
@@ -187,6 +187,12 @@ If you read three files: `core/config/ConfigHandler.ts` (the whole profile-selec
 | **Best fit** | IDE-native coding assistance with per-project, hot-swappable rule/MCP bundles | Terminal-first agent work needing a real, swappable MCP toolset | Desktop/CLI agent work built around composable MCP extensions |
 
 The crucial axis Continue owns in this study is **live, file-driven, multi-profile configuration**: no other entry lets a project ship several fully independent named "assistants" (each its own models/rules/prompts/MCP-servers bundle) side by side in plain files, switchable at runtime by the user, with MCP connections reconciled by transport-identity diff rather than blanket restart. The cost is real — the repo is archived, the config-resolution layer (`uses`/`with`/`override` against a hub) adds indirection, and there's no audit-grade trace of what a tool call actually did.
+
+## Changes since the previous pin (2026-06-18 → 2026-07-20)
+
+- Old pin `d0a3c0b626b5`, new pin `5522c6f44ca0`, 3 commits (one a merge), no new release (still `v1.3.40-vscode`). The default branch has had no commits since 2026-07-20.
+- Nothing in the extension, CLI, or `packages/config-yaml` changed, so every citation above holds. The commits move the docs site to the `docs.continue.dev` root (`docs-site/next.config.js`, `docs-site/public/CNAME`) and remove the docs "Sign in" link because the login flow was retired (`docs-site/components/docs/DocsShell.tsx`). A retired login is one more sign that the hub-backed `uses`/`with`/`override` blocks should not be relied on.
+- `README.md:19` still declares the repo read-only, though GitHub's `archived` flag on `continuedev/continue` was false when checked on 2026-11-23.
 
 ## One-line summary
 

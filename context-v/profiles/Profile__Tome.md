@@ -13,9 +13,9 @@ profile_kind: cross-harness skill catalog manager (Rust CLI + stdio MCP server)
 pinned_sha: e7974c17453f41314cb3e169d43490295cb6108d
 pinned_version: "0.7.18 (Cargo.toml); latest release tag v0.7.18, 2026-07-10"
 date_created: 2026-11-20
-date_modified: 2026-11-20
+date_modified: 2026-11-23
 date_authored_initial_draft: 2026-11-20
-date_authored_current_draft: 2026-11-20
+date_authored_current_draft: 2026-11-23
 authors:
   - Michael Staton
 augmented_with:
@@ -216,6 +216,10 @@ About 211k lines of Rust across `src/` and `tests/`.
    files? Run `tome catalog convert` and `lint` against it to find out.
 2. Does the Tier 3 summary hold up for a library of 60+ skills, or does search carry it?
 3. Is a 1.16 GB model download acceptable for collaborators, versus the `small` profile?
+
+## Changes since the previous pin (2026-07-16 → 2026-07-16)
+
+Nothing changed: `main` is still at `e7974c17453f` (0 new commits as of 2026-11-23) and the latest release is still `v0.7.18`, so every citation above holds.
 
 ## Drift noted at this pin
 

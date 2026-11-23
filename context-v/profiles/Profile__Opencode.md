@@ -10,27 +10,29 @@ study: studies/agent-harnesses
 profile_path: studies/agent-harnesses/opencode
 profile_kind: coding-agent-harness (CLI + TUI + server + desktop + SDKs)
 date_created: 2026-07-13
-date_modified: 2026-08-18
+date_modified: 2026-11-23
 authors:
   - Michael Staton
 site_uuid: 9e8914e1-acae-4cd0-8e2c-00bde588aa9f
 hex_code: sq77yy
 date_authored_initial_draft: 2026-07-13
-date_authored_current_draft: 2026-07-13
+date_authored_current_draft: 2026-11-23
 lede: >-
-  A terminal coding agent with 38 SQLite migrations and real OTLP tracing —
-  built like a production SaaS backend, and no Go anywhere.
+  A terminal coding agent with 64 SQLite migrations and real OTLP tracing —
+  built like a production SaaS backend, and still no Go anywhere.
 summary: >-
   Source-cited profile of the OpenCode submodule in the agent-harnesses study — the TypeScript,
   Effect-native, database-backed corner. Five deep dives: XDG-derived paths with per-project
   instance scoping; the SQLite/Drizzle session schema (including `SessionContextEpochTable`, the row
-  that makes prompt-cache hits durable across restarts) alongside a legacy JSON store still being
+  that made prompt-cache hits durable across restarts at the July pin, since replaced by
+  `InstructionStateTable`) alongside a legacy JSON store still being
   migrated out of; OTLP export wired through `Effect.fn` spans with session/message/tool-call IDs
   attached to every tool execution; a tool registry composed from built-ins, disk files, plugins,
   and MCP servers then filtered per-agent by wildcard permission rules rather than a static
   allow-list; and skill/agent/command discovery that walks up the directory tree and converges
-  skills, MCP prompts, and slash commands into one namespace. Read `CONTEXT.md` and the repo's own
-  dogfooded `.opencode/` directory first. Includes a negative finding on the `sst/opencode` org-name
+  skills, MCP prompts, and slash commands into one namespace. The body records the July pin
+  (`packages/opencode/` and `CONTEXT.md` have since been removed); read its changes section and
+  the repo's own dogfooded `.opencode/` directory first. Includes a negative finding on the `sst/opencode` org-name
   question — no evidence of the prior name survives in this checkout.
 status: Reference
 publish: true
@@ -41,9 +43,11 @@ type: Profiles
 
 A profile of OpenCode as it lives in this study (`studies/agent-harnesses/opencode/`). Cites pinned paths so you can jump to source rather than trust paraphrase. Read alongside the sibling profiles for `goose` (Rust, extensions-as-MCP-wrapper) and `aider` (git-native repo-map/diff-based, no MCP) — this is the "TypeScript, Effect-native, database-backed" corner of the study.
 
+> **Read this first (2026-11-23 pin).** This profile was written against `0d5798c0bf29` (2026-07-13, `v1.17.20`). The repo has since moved 8,240 commits and reached `v2.3.2`. Three of its anchors are gone: `packages/opencode/` was deleted on 2026-07-20 (its session, MCP, skill, permission, tool, agent, and command modules now live in `packages/core/src/`, with the HTTP server in `packages/server/` and the CLI entry in `packages/cli/`); `CONTEXT.md` was deleted on 2026-07-13; and `SessionContextEpochTable` no longer exists (instruction caching is now `InstructionStateTable`/`InstructionEntryTable`/`InstructionBlobTable`, `packages/core/src/session/sql.ts:154-183`). Citations into those paths below describe the July pin. The changes section near the end lists what moved and what still holds.
+
 ## TL;DR
 
-OpenCode bills itself simply, in the README (`README.md:44`): **"The open source AI coding agent."** But the checkout reveals something considerably more architected than a CLI wrapper around an LLM: a 30+-package Bun/TypeScript monorepo built on the [Effect](https://effect.website) library, with a real **SQLite database** (Drizzle ORM, 38 migrations, WAL mode) for session/message persistence, a **JSON-file storage layer with its own migration chain** for legacy artifacts, a first-class **MCP client** (local stdio + remote HTTP/SSE, OAuth, tool-list-changed notifications), a **skill discovery system** that reads `.claude/skills`, `.agents/skills`, and `.opencode/skill(s)` directories plus remote skill registries, and an internal **"System Context" architecture** (documented in `CONTEXT.md`) that formalizes exactly how conversational memory is assembled and cached across turns.
+OpenCode bills itself simply, in the README (`README.md:10`): **"The open source AI coding agent."** But the checkout reveals something considerably more architected than a CLI wrapper around an LLM: a 30+-package Bun/TypeScript monorepo built on the [Effect](https://effect.website) library, with a real **SQLite database** (Drizzle ORM, 64 migrations at this pin and 38 at the July pin, WAL mode) for session/message persistence, a **JSON-file storage layer with its own migration chain** for legacy artifacts, a first-class **MCP client** (local stdio + remote HTTP/SSE, OAuth, tool-list-changed notifications), a **skill discovery system** that reads `.claude/skills`, `.agents/skills`, and `.opencode/skill(s)` directories plus remote skill registries, and an internal **"System Context" architecture** (documented in `CONTEXT.md`) that formalizes exactly how conversational memory is assembled and cached across turns.
 
 The self-description of that system-context machinery is the most load-bearing pull-quote in the repo (`CONTEXT.md:16-20`):
 
@@ -51,13 +55,13 @@ The self-description of that system-context machinery is the most load-bearing p
 
 That's not marketing copy — it's an internal vocabulary document the team uses to keep its own contributors (and its own AGENTS.md-reading coding agents) aligned on how session memory should behave.
 
-Root `package.json:2-8` confirms the shape directly: `"name": "opencode"`, `"packageManager": "bun@1.3.14"`, workspaces across `packages/*`. There is **no `go.mod` anywhere in the checkout** (`find . -iname go.mod` returns nothing) — this is a TypeScript/Bun project end to end, not the Go+TypeScript hybrid a naive guess might expect from a "coding agent CLI."
+Root `package.json:3-8` confirms the shape directly: `"name": "opencode"`, `"version": "2.3.2"`, `"packageManager": "bun@1.4.4"`, workspaces across `packages/*`. There is **no `go.mod` and no `.go` file anywhere in the checkout** (re-checked at this pin) (`find . -iname go.mod` returns nothing) — this is a TypeScript/Bun project, not the Go+TypeScript hybrid a naive guess might expect from a "coding agent CLI." Since the July pin there is one non-TypeScript client: `packages/cli-rs/`, a Rust CLI/TUI built on OpenTUI's Rust crates that talks to the TypeScript server over HTTP and "does not ship yet" (`packages/cli-rs/README.md`).
 
 ## Why this exists
 
 OpenCode positions itself as the open, provider-agnostic terminal coding agent — a TUI (built on a custom `@opentui/*` rendering stack, `packages/tui/`), a server (`packages/opencode/src/server/`), a desktop app (`packages/desktop/`, Electron-based per `trustedDependencies` in root `package.json`), and a web app (`packages/app/`, `packages/web/`), all driven by one shared core (`packages/core/`, `packages/opencode/`). The repo ships 20+ localized READMEs (`README.ar.md` through `README.zht.md`), a public roadmap-shaped `specs/` directory, and a `CONTRIBUTING.md` — signals of a project optimizing for a broad open-source contributor base, not a single-vendor product.
 
-The engineering culture is unusually explicit about its own conventions. `AGENTS.md` (the repo's own agent-facing style guide — there is no separate `CLAUDE.md`) lays out dependency direction rules (`AGENTS.md:3`: *"Keep runtime dependencies directed from Schema to Core and Protocol, then from Core and Protocol to Server"*), import discipline (`AGENTS.md:61-64`: never alias imports, never star-import), and a dense "V2 Session Core" section (`AGENTS.md:151-161`) that reads like architecture decision records compressed into agent instructions — durable prompt admission separated from model execution, Session-ID-scoped execution, explicit provider-turn boundaries. This is a project treating its own AGENTS.md as executable documentation for the agents (including OpenCode itself, dogfooded) that will edit its code.
+The engineering culture is unusually explicit about its own conventions. `AGENTS.md` (the repo's own agent-facing style guide — there is no separate `CLAUDE.md`) lays out dependency direction rules (`AGENTS.md:2`: *"Keep runtime dependencies directed from Schema to Core and Protocol, then from Core and Protocol to Server"*), import discipline (`AGENTS.md:61-64`: never alias imports, never star-import), and a dense "V2 Session Core" section (`AGENTS.md:151-161`) that reads like architecture decision records compressed into agent instructions — durable prompt admission separated from model execution, Session-ID-scoped execution, explicit provider-turn boundaries. This is a project treating its own AGENTS.md as executable documentation for the agents (including OpenCode itself, dogfooded) that will edit its code.
 
 ## Deep dive 1 — file/session organization: XDG dirs, per-project instances, and a real database
 
@@ -247,6 +251,15 @@ If you read four files, in this order: `CONTEXT.md` (the memory vocabulary), `AG
 - **You want MCP sampling/elicitation today.** The client capabilities explicitly disable them (`mcp/index.ts:39-50`, commented out with tracked issue numbers) — if your MCP server depends on server-initiated sampling or elicitation, OpenCode won't drive that flow yet.
 - **You need a stable, versioned public schema to build against long-term.** The dense migration history (38 DB migrations, an internal JSON-storage migration chain on top of that) signals an actively-evolving internal data model; `AGENTS.md`'s "V2 Session Core" section describes a system mid-refactor (durable prompt admission vs. legacy `SessionPrompt.loop`), not a frozen contract.
 - **You're evaluating "skills" as OpenCode's own invention.** Its skill format is deliberately compatible with `.claude/skills` and `.agents/skills` conventions from other tools — if your interest is specifically in a from-scratch skills design, look elsewhere in the study.
+
+## Changes since the previous pin (2026-07-13 → 2026-11-23)
+
+- Old pin `0d5798c0bf29` (`v1.17.20`), new pin `3b38f3aadd46`, 8,240 commits on `dev`. Releases in range include **`v2.0.0` (2026-09-11)** and run to **`v2.3.2` (2026-11-18)**. The manifest's nearest tag, `process-daemon-v0.6.0`, is an internal package tag.
+- **`packages/opencode/` is gone** (deleted 2026-07-20, commit `44b6938b2a`). The modules this profile cited there now sit in `packages/core/src/` (`mcp/`, `skill/` and `skill.ts`, `permission/` and `permission.ts`, `tool/` and `tool.ts`, `agent.ts`, `command.ts`, `instance/`, `session/`), with the HTTP API in `packages/server/` and the CLI entry in `packages/cli/` (root `package.json` `dev` script). There are 34 packages under `packages/` at this pin.
+- **`CONTEXT.md` is gone** (deleted 2026-07-13, `4e74f77e44`), and with it the "Context Epoch" vocabulary this profile quoted. The idea survives in code: `InstructionStateTable` stores an `epoch_start` per session, and `session/history.ts:226-236` treats the instruction baseline as superseding earlier updates.
+- **Still true:** SQLite via Drizzle with WAL (`packages/core/src/database/database.ts:43-48`), now 64 migrations; OTLP export, moved to `packages/util/src/observability/otlp.ts`; no Go. New: the database layer also runs on Cloudflare Durable Object SQLite (`database.ts:41`, `sqlite.workerd.ts`), and the repo has grown automation, machine, and background-job tables.
+- **New clients and services:** a Rust native CLI (`packages/cli-rs/`, unreleased), a managed background server the TUI attaches to (`opencode service status`, `AGENTS.md` "Live TUI Testing"), and `packages/process-daemon/`.
+- The org is still `anomalyco`; `sst/opencode` redirects to `anomalyco/opencode` on GitHub.
 
 ## How this compares to the study's other harnesses
 
